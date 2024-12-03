@@ -1,0 +1,394 @@
+{
+  "Version": 1,
+  "WorkspaceRootPath": "C:\\Users\\El Masdouki Fayssal\\source\\repos\\Hahn Software\\backend\\",
+  "Documents": [
+    {
+      "AbsoluteMoniker": "D:0:0:{43817F99-F7D8-491F-94C9-424D6246F628}|backend.csproj|c:\\users\\el masdouki fayssal\\source\\repos\\hahn software\\backend\\appsettings.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}",
+      "RelativeMoniker": "D:0:0:{43817F99-F7D8-491F-94C9-424D6246F628}|backend.csproj|solutionrelative:appsettings.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{43817F99-F7D8-491F-94C9-424D6246F628}|backend.csproj|c:\\users\\el masdouki fayssal\\source\\repos\\hahn software\\backend\\controllers\\expensecontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{43817F99-F7D8-491F-94C9-424D6246F628}|backend.csproj|solutionrelative:controllers\\expensecontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{43817F99-F7D8-491F-94C9-424D6246F628}|backend.csproj|c:\\users\\el masdouki fayssal\\source\\repos\\hahn software\\backend\\dtos\\expensedto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{43817F99-F7D8-491F-94C9-424D6246F628}|backend.csproj|solutionrelative:dtos\\expensedto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{43817F99-F7D8-491F-94C9-424D6246F628}|backend.csproj|c:\\users\\el masdouki fayssal\\source\\repos\\hahn software\\backend\\mapper\\expensemapper.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{43817F99-F7D8-491F-94C9-424D6246F628}|backend.csproj|solutionrelative:mapper\\expensemapper.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{43817F99-F7D8-491F-94C9-424D6246F628}|backend.csproj|c:\\users\\el masdouki fayssal\\source\\repos\\hahn software\\backend\\mapper\\budgetmapper.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{43817F99-F7D8-491F-94C9-424D6246F628}|backend.csproj|solutionrelative:mapper\\budgetmapper.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{43817F99-F7D8-491F-94C9-424D6246F628}|backend.csproj|c:\\users\\el masdouki fayssal\\source\\repos\\hahn software\\backend\\backend.csproj||{FA3CD31E-987B-443A-9B81-186104E8DAC1}|",
+      "RelativeMoniker": "D:0:0:{43817F99-F7D8-491F-94C9-424D6246F628}|backend.csproj|solutionrelative:backend.csproj||{FA3CD31E-987B-443A-9B81-186104E8DAC1}|"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{43817F99-F7D8-491F-94C9-424D6246F628}|backend.csproj|c:\\users\\el masdouki fayssal\\source\\repos\\hahn software\\backend\\controllers\\budgetcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{43817F99-F7D8-491F-94C9-424D6246F628}|backend.csproj|solutionrelative:controllers\\budgetcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{43817F99-F7D8-491F-94C9-424D6246F628}|backend.csproj|c:\\users\\el masdouki fayssal\\source\\repos\\hahn software\\backend\\models\\expense.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{43817F99-F7D8-491F-94C9-424D6246F628}|backend.csproj|solutionrelative:models\\expense.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{43817F99-F7D8-491F-94C9-424D6246F628}|backend.csproj|c:\\users\\el masdouki fayssal\\source\\repos\\hahn software\\backend\\models\\budget.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{43817F99-F7D8-491F-94C9-424D6246F628}|backend.csproj|solutionrelative:models\\budget.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{43817F99-F7D8-491F-94C9-424D6246F628}|backend.csproj|c:\\users\\el masdouki fayssal\\source\\repos\\hahn software\\backend\\dtos\\budgetdto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{43817F99-F7D8-491F-94C9-424D6246F628}|backend.csproj|solutionrelative:dtos\\budgetdto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{43817F99-F7D8-491F-94C9-424D6246F628}|backend.csproj|c:\\users\\el masdouki fayssal\\source\\repos\\hahn software\\backend\\repositories\\expenserepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{43817F99-F7D8-491F-94C9-424D6246F628}|backend.csproj|solutionrelative:repositories\\expenserepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{43817F99-F7D8-491F-94C9-424D6246F628}|backend.csproj|c:\\users\\el masdouki fayssal\\source\\repos\\hahn software\\backend\\repositories\\interfaces\\iexpenserepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{43817F99-F7D8-491F-94C9-424D6246F628}|backend.csproj|solutionrelative:repositories\\interfaces\\iexpenserepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{43817F99-F7D8-491F-94C9-424D6246F628}|backend.csproj|c:\\users\\el masdouki fayssal\\source\\repos\\hahn software\\backend\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{43817F99-F7D8-491F-94C9-424D6246F628}|backend.csproj|solutionrelative:program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{43817F99-F7D8-491F-94C9-424D6246F628}|backend.csproj|c:\\users\\el masdouki fayssal\\source\\repos\\hahn software\\backend\\migrations\\20241202234859_detectchanges.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{43817F99-F7D8-491F-94C9-424D6246F628}|backend.csproj|solutionrelative:migrations\\20241202234859_detectchanges.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{43817F99-F7D8-491F-94C9-424D6246F628}|backend.csproj|c:\\users\\el masdouki fayssal\\source\\repos\\hahn software\\backend\\models\\category.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{43817F99-F7D8-491F-94C9-424D6246F628}|backend.csproj|solutionrelative:models\\category.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{43817F99-F7D8-491F-94C9-424D6246F628}|backend.csproj|c:\\users\\el masdouki fayssal\\source\\repos\\hahn software\\backend\\controllers\\categorycontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{43817F99-F7D8-491F-94C9-424D6246F628}|backend.csproj|solutionrelative:controllers\\categorycontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{43817F99-F7D8-491F-94C9-424D6246F628}|backend.csproj|c:\\users\\el masdouki fayssal\\source\\repos\\hahn software\\backend\\migrations\\20241202233502_makeexpensesoptional.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{43817F99-F7D8-491F-94C9-424D6246F628}|backend.csproj|solutionrelative:migrations\\20241202233502_makeexpensesoptional.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{43817F99-F7D8-491F-94C9-424D6246F628}|backend.csproj|c:\\users\\el masdouki fayssal\\source\\repos\\hahn software\\backend\\data\\appdbcontext.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{43817F99-F7D8-491F-94C9-424D6246F628}|backend.csproj|solutionrelative:data\\appdbcontext.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{43817F99-F7D8-491F-94C9-424D6246F628}|backend.csproj|c:\\users\\el masdouki fayssal\\source\\repos\\hahn software\\backend\\repositories\\interfaces\\ibudgetrepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{43817F99-F7D8-491F-94C9-424D6246F628}|backend.csproj|solutionrelative:repositories\\interfaces\\ibudgetrepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{43817F99-F7D8-491F-94C9-424D6246F628}|backend.csproj|c:\\users\\el masdouki fayssal\\source\\repos\\hahn software\\backend\\repositories\\interfaces\\icategoryrepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{43817F99-F7D8-491F-94C9-424D6246F628}|backend.csproj|solutionrelative:repositories\\interfaces\\icategoryrepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{43817F99-F7D8-491F-94C9-424D6246F628}|backend.csproj|c:\\users\\el masdouki fayssal\\source\\repos\\hahn software\\backend\\repositories\\categoryrepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{43817F99-F7D8-491F-94C9-424D6246F628}|backend.csproj|solutionrelative:repositories\\categoryrepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{43817F99-F7D8-491F-94C9-424D6246F628}|backend.csproj|c:\\users\\el masdouki fayssal\\source\\repos\\hahn software\\backend\\repositories\\budgetrepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{43817F99-F7D8-491F-94C9-424D6246F628}|backend.csproj|solutionrelative:repositories\\budgetrepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    }
+  ],
+  "DocumentGroupContainers": [
+    {
+      "Orientation": 0,
+      "VerticalTabListWidth": 256,
+      "DocumentGroups": [
+        {
+          "DockedWidth": 200,
+          "SelectedChildIndex": 3,
+          "Children": [
+            {
+              "$type": "Document",
+              "DocumentIndex": 3,
+              "Title": "ExpenseMapper.cs",
+              "DocumentMoniker": "C:\\Users\\El Masdouki Fayssal\\source\\repos\\Hahn Software\\backend\\Mapper\\ExpenseMapper.cs",
+              "RelativeDocumentMoniker": "Mapper\\ExpenseMapper.cs",
+              "ToolTip": "C:\\Users\\El Masdouki Fayssal\\source\\repos\\Hahn Software\\backend\\Mapper\\ExpenseMapper.cs",
+              "RelativeToolTip": "Mapper\\ExpenseMapper.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABkAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-12-03T00:58:47.904Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 4,
+              "Title": "BudgetMapper.cs",
+              "DocumentMoniker": "C:\\Users\\El Masdouki Fayssal\\source\\repos\\Hahn Software\\backend\\Mapper\\BudgetMapper.cs",
+              "RelativeDocumentMoniker": "Mapper\\BudgetMapper.cs",
+              "ToolTip": "C:\\Users\\El Masdouki Fayssal\\source\\repos\\Hahn Software\\backend\\Mapper\\BudgetMapper.cs",
+              "RelativeToolTip": "Mapper\\BudgetMapper.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAA8AAAArAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-12-03T00:58:07.608Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 10,
+              "Title": "ExpenseRepository.cs",
+              "DocumentMoniker": "C:\\Users\\El Masdouki Fayssal\\source\\repos\\Hahn Software\\backend\\Repositories\\ExpenseRepository.cs",
+              "RelativeDocumentMoniker": "Repositories\\ExpenseRepository.cs",
+              "ToolTip": "C:\\Users\\El Masdouki Fayssal\\source\\repos\\Hahn Software\\backend\\Repositories\\ExpenseRepository.cs",
+              "RelativeToolTip": "Repositories\\ExpenseRepository.cs",
+              "ViewState": "AgIAAAoAAAAAAAAAAAAgwDYAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-12-02T21:17:26.768Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "appsettings.json",
+              "DocumentMoniker": "C:\\Users\\El Masdouki Fayssal\\source\\repos\\Hahn Software\\backend\\appsettings.json",
+              "RelativeDocumentMoniker": "appsettings.json",
+              "ToolTip": "C:\\Users\\El Masdouki Fayssal\\source\\repos\\Hahn Software\\backend\\appsettings.json",
+              "RelativeToolTip": "appsettings.json",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAwAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001642|",
+              "WhenOpened": "2024-12-02T20:31:35.501Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 12,
+              "Title": "Program.cs",
+              "DocumentMoniker": "C:\\Users\\El Masdouki Fayssal\\source\\repos\\Hahn Software\\backend\\Program.cs",
+              "RelativeDocumentMoniker": "Program.cs",
+              "ToolTip": "C:\\Users\\El Masdouki Fayssal\\source\\repos\\Hahn Software\\backend\\Program.cs",
+              "RelativeToolTip": "Program.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAA0AAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-12-02T20:44:21.98Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 6,
+              "Title": "BudgetController.cs",
+              "DocumentMoniker": "C:\\Users\\El Masdouki Fayssal\\source\\repos\\Hahn Software\\backend\\Controllers\\BudgetController.cs",
+              "RelativeDocumentMoniker": "Controllers\\BudgetController.cs",
+              "ToolTip": "C:\\Users\\El Masdouki Fayssal\\source\\repos\\Hahn Software\\backend\\Controllers\\BudgetController.cs",
+              "RelativeToolTip": "Controllers\\BudgetController.cs",
+              "ViewState": "AgIAAA0AAAAAAAAAAAAYwCgAAAAJAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-12-02T21:34:52.867Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "ExpenseController.cs",
+              "DocumentMoniker": "C:\\Users\\El Masdouki Fayssal\\source\\repos\\Hahn Software\\backend\\Controllers\\ExpenseController.cs",
+              "RelativeDocumentMoniker": "Controllers\\ExpenseController.cs",
+              "ToolTip": "C:\\Users\\El Masdouki Fayssal\\source\\repos\\Hahn Software\\backend\\Controllers\\ExpenseController.cs",
+              "RelativeToolTip": "Controllers\\ExpenseController.cs",
+              "ViewState": "AgIAAHMAAAAAAAAAAAAmwIwAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-12-02T21:32:40.059Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "ExpenseDto.cs",
+              "DocumentMoniker": "C:\\Users\\El Masdouki Fayssal\\source\\repos\\Hahn Software\\backend\\Dtos\\ExpenseDto.cs",
+              "RelativeDocumentMoniker": "Dtos\\ExpenseDto.cs",
+              "ToolTip": "C:\\Users\\El Masdouki Fayssal\\source\\repos\\Hahn Software\\backend\\Dtos\\ExpenseDto.cs",
+              "RelativeToolTip": "Dtos\\ExpenseDto.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAA0AAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-12-03T00:41:46.425Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 9,
+              "Title": "BudgetDto.cs",
+              "DocumentMoniker": "C:\\Users\\El Masdouki Fayssal\\source\\repos\\Hahn Software\\backend\\Dtos\\BudgetDto.cs",
+              "RelativeDocumentMoniker": "Dtos\\BudgetDto.cs",
+              "ToolTip": "C:\\Users\\El Masdouki Fayssal\\source\\repos\\Hahn Software\\backend\\Dtos\\BudgetDto.cs",
+              "RelativeToolTip": "Dtos\\BudgetDto.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAsAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-12-03T00:51:47.996Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 5,
+              "Title": "backend",
+              "DocumentMoniker": "C:\\Users\\El Masdouki Fayssal\\source\\repos\\Hahn Software\\backend\\backend.csproj",
+              "RelativeDocumentMoniker": "backend.csproj",
+              "ToolTip": "C:\\Users\\El Masdouki Fayssal\\source\\repos\\Hahn Software\\backend\\backend.csproj",
+              "RelativeToolTip": "backend.csproj",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000758|",
+              "WhenOpened": "2024-12-03T01:02:35.805Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 8,
+              "Title": "Budget.cs",
+              "DocumentMoniker": "C:\\Users\\El Masdouki Fayssal\\source\\repos\\Hahn Software\\backend\\Models\\Budget.cs",
+              "RelativeDocumentMoniker": "Models\\Budget.cs",
+              "ToolTip": "C:\\Users\\El Masdouki Fayssal\\source\\repos\\Hahn Software\\backend\\Models\\Budget.cs",
+              "RelativeToolTip": "Models\\Budget.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABcAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-12-02T20:40:16.368Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 7,
+              "Title": "Expense.cs",
+              "DocumentMoniker": "C:\\Users\\El Masdouki Fayssal\\source\\repos\\Hahn Software\\backend\\Models\\Expense.cs",
+              "RelativeDocumentMoniker": "Models\\Expense.cs",
+              "ToolTip": "C:\\Users\\El Masdouki Fayssal\\source\\repos\\Hahn Software\\backend\\Models\\Expense.cs",
+              "RelativeToolTip": "Models\\Expense.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAACMAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-12-02T20:40:07.49Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 18,
+              "Title": "IBudgetRepository.cs",
+              "DocumentMoniker": "C:\\Users\\El Masdouki Fayssal\\source\\repos\\Hahn Software\\backend\\Repositories\\Interfaces\\IBudgetRepository.cs",
+              "RelativeDocumentMoniker": "Repositories\\Interfaces\\IBudgetRepository.cs",
+              "ToolTip": "C:\\Users\\El Masdouki Fayssal\\source\\repos\\Hahn Software\\backend\\Repositories\\Interfaces\\IBudgetRepository.cs",
+              "RelativeToolTip": "Repositories\\Interfaces\\IBudgetRepository.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-12-02T21:20:55.539Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 11,
+              "Title": "IExpenseRepository.cs",
+              "DocumentMoniker": "C:\\Users\\El Masdouki Fayssal\\source\\repos\\Hahn Software\\backend\\Repositories\\Interfaces\\IExpenseRepository.cs",
+              "RelativeDocumentMoniker": "Repositories\\Interfaces\\IExpenseRepository.cs",
+              "ToolTip": "C:\\Users\\El Masdouki Fayssal\\source\\repos\\Hahn Software\\backend\\Repositories\\Interfaces\\IExpenseRepository.cs",
+              "RelativeToolTip": "Repositories\\Interfaces\\IExpenseRepository.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-12-02T21:20:42.798Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 19,
+              "Title": "ICategoryRepository.cs",
+              "DocumentMoniker": "C:\\Users\\El Masdouki Fayssal\\source\\repos\\Hahn Software\\backend\\Repositories\\Interfaces\\ICategoryRepository.cs",
+              "RelativeDocumentMoniker": "Repositories\\Interfaces\\ICategoryRepository.cs",
+              "ToolTip": "C:\\Users\\El Masdouki Fayssal\\source\\repos\\Hahn Software\\backend\\Repositories\\Interfaces\\ICategoryRepository.cs",
+              "RelativeToolTip": "Repositories\\Interfaces\\ICategoryRepository.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-12-02T22:19:14.676Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 17,
+              "Title": "AppDbContext.cs",
+              "DocumentMoniker": "C:\\Users\\El Masdouki Fayssal\\source\\repos\\Hahn Software\\backend\\Data\\AppDbContext.cs",
+              "RelativeDocumentMoniker": "Data\\AppDbContext.cs",
+              "ToolTip": "C:\\Users\\El Masdouki Fayssal\\source\\repos\\Hahn Software\\backend\\Data\\AppDbContext.cs",
+              "RelativeToolTip": "Data\\AppDbContext.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAoAAAA3AAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-12-02T20:39:30.472Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 14,
+              "Title": "Category.cs",
+              "DocumentMoniker": "C:\\Users\\El Masdouki Fayssal\\source\\repos\\Hahn Software\\backend\\Models\\Category.cs",
+              "RelativeDocumentMoniker": "Models\\Category.cs",
+              "ToolTip": "C:\\Users\\El Masdouki Fayssal\\source\\repos\\Hahn Software\\backend\\Models\\Category.cs",
+              "RelativeToolTip": "Models\\Category.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAA4AAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-12-02T22:16:28.788Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 13,
+              "Title": "20241202234859_DetectChanges.cs",
+              "DocumentMoniker": "C:\\Users\\El Masdouki Fayssal\\source\\repos\\Hahn Software\\backend\\Migrations\\20241202234859_DetectChanges.cs",
+              "RelativeDocumentMoniker": "Migrations\\20241202234859_DetectChanges.cs",
+              "ToolTip": "C:\\Users\\El Masdouki Fayssal\\source\\repos\\Hahn Software\\backend\\Migrations\\20241202234859_DetectChanges.cs",
+              "RelativeToolTip": "Migrations\\20241202234859_DetectChanges.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-12-02T23:49:01.357Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 15,
+              "Title": "CategoryController.cs",
+              "DocumentMoniker": "C:\\Users\\El Masdouki Fayssal\\source\\repos\\Hahn Software\\backend\\Controllers\\CategoryController.cs",
+              "RelativeDocumentMoniker": "Controllers\\CategoryController.cs",
+              "ToolTip": "C:\\Users\\El Masdouki Fayssal\\source\\repos\\Hahn Software\\backend\\Controllers\\CategoryController.cs",
+              "RelativeToolTip": "Controllers\\CategoryController.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAB8AAAAgAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-12-02T22:23:42.346Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 16,
+              "Title": "20241202233502_MakeExpensesOptional.cs",
+              "DocumentMoniker": "C:\\Users\\El Masdouki Fayssal\\source\\repos\\Hahn Software\\backend\\Migrations\\20241202233502_MakeExpensesOptional.cs",
+              "RelativeDocumentMoniker": "Migrations\\20241202233502_MakeExpensesOptional.cs",
+              "ToolTip": "C:\\Users\\El Masdouki Fayssal\\source\\repos\\Hahn Software\\backend\\Migrations\\20241202233502_MakeExpensesOptional.cs",
+              "RelativeToolTip": "Migrations\\20241202233502_MakeExpensesOptional.cs",
+              "ViewState": "AgIAAAUAAAAAAAAAAAAswCEAAAAmAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-12-02T23:35:05.746Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 21,
+              "Title": "BudgetRepository.cs",
+              "DocumentMoniker": "C:\\Users\\El Masdouki Fayssal\\source\\repos\\Hahn Software\\backend\\Repositories\\BudgetRepository.cs",
+              "RelativeDocumentMoniker": "Repositories\\BudgetRepository.cs",
+              "ToolTip": "C:\\Users\\El Masdouki Fayssal\\source\\repos\\Hahn Software\\backend\\Repositories\\BudgetRepository.cs",
+              "RelativeToolTip": "Repositories\\BudgetRepository.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAgAAAABAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-12-02T21:20:17.448Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 20,
+              "Title": "CategoryRepository.cs",
+              "DocumentMoniker": "C:\\Users\\El Masdouki Fayssal\\source\\repos\\Hahn Software\\backend\\Repositories\\CategoryRepository.cs",
+              "RelativeDocumentMoniker": "Repositories\\CategoryRepository.cs",
+              "ToolTip": "C:\\Users\\El Masdouki Fayssal\\source\\repos\\Hahn Software\\backend\\Repositories\\CategoryRepository.cs",
+              "RelativeToolTip": "Repositories\\CategoryRepository.cs",
+              "ViewState": "AgIAAAgAAAAAAAAAAAAqwDMAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-12-02T22:19:53.763Z",
+              "EditorCaption": ""
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
