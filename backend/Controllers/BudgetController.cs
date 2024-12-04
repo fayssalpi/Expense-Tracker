@@ -4,6 +4,7 @@ using backend.Dtos;
 using backend.Mapper;
 using backend.Models;
 using backend.Repositories.Interfaces;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
@@ -132,6 +133,29 @@ namespace backend.Controllers
             return NoContent();
         }
 
+        [HttpGet("current-month")]
+        [Authorize]
+        public async Task<ActionResult<BudgetDto>> GetCurrentMonthBudget()
+        {
+            var userId = int.Parse(User.FindFirst("userId")?.Value ?? "0");
+            var currentDate = DateTime.Now;
+
+            var budget = await _context.Budgets
+                .Where(b => b.UserId == userId && b.Month == currentDate.Month && b.Year == currentDate.Year)
+                .Include(b => b.Expenses)
+                .ThenInclude(e => e.Category)
+                .FirstOrDefaultAsync();
+
+            if (budget == null)
+            {
+                return Ok(new { message = "No budget for this month", budget = (object)null });
+            }
+
+            var budgetDto = BudgetMapper.ToDto(budget); // Map to DTO
+            var remaining = budgetDto.MonthlyLimit - budgetDto.Spent; // Calculate remaining amount
+
+            return Ok(new { budget = budgetDto, remaining }); // Return DTO with additional data
+        }
 
 
 

@@ -13,6 +13,7 @@ import { filter } from 'rxjs';
 import { AuthService } from './__Services/auth.service';
 
 
+
 @Component({
   selector: 'app-root',
   standalone: true,
@@ -20,7 +21,8 @@ import { AuthService } from './__Services/auth.service';
     RouterModule,
     HeaderComponent,
     SidebarComponent,
-    CommonModule],
+    CommonModule,
+  ],
   templateUrl: './app.component.html',
   styleUrl: './app.component.css'
 })

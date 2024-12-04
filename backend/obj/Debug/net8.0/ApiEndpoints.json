@@ -111,6 +111,26 @@
     "ReturnTypes": []
   },
   {
+    "ContainingType": "backend.Controllers.BudgetController",
+    "Method": "GetCurrentMonthBudget",
+    "RelativePath": "api/Budget/current-month",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": [
+      {
+        "Type": "backend.Dtos.BudgetDto",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
     "ContainingType": "backend.Controllers.CategoryController",
     "Method": "GetCategories",
     "RelativePath": "api/Category",

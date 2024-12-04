@@ -29,4 +29,9 @@ export class BudgetService {
       );
     }
 
+      // Method to get the current month budget
+  getCurrentMonthBudget(): Observable<any> {
+    return this.http.get<any>(`${this.apiUrl}/current-month`);
+  }
+
 }

@@ -1,8 +1,10 @@
-﻿using backend.Models;
+﻿using backend.Dtos;
+using backend.Models;
 using backend.Repositories;
 using backend.Repositories.Interfaces;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 
 namespace backend.Controllers
 {
@@ -78,6 +80,9 @@ namespace backend.Controllers
             await _repository.DeleteCategory(id);
             return NoContent();
         }
+
+
+
 
 
 
