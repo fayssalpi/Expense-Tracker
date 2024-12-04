@@ -13,7 +13,11 @@ namespace backend.Mapper
                 Id = budget.Id,
                 MonthlyLimit = budget.MonthlyLimit,
                 Spent = budget.Spent,
-                Expenses = budget.Expenses?.Select(ExpenseMapper.ToDto).ToList() ?? new List<ExpenseDto>()
+                Expenses = budget.Expenses?.Select(ExpenseMapper.ToDto).ToList() ?? new List<ExpenseDto>(),
+                UserId = budget.UserId,
+                Month = budget.Month,  // Ensure month is included
+                Year = budget.Year     // Ensure year is included
+
             };
         }
     }

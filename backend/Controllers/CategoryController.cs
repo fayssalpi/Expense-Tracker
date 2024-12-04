@@ -1,5 +1,7 @@
 ﻿using backend.Models;
+using backend.Repositories;
 using backend.Repositories.Interfaces;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace backend.Controllers
@@ -17,10 +19,13 @@ namespace backend.Controllers
             _repository = repository;
         }
 
+        // GET: api/category
         [HttpGet]
-        public async Task<IActionResult> GetAllCategories()
+        [Authorize] // Make sure the user is authenticated
+        public async Task<ActionResult<IEnumerable<Category>>> GetCategories()
         {
-            var categories = await _repository.GetAllCategories();
+            var userId = int.Parse(User.FindFirst("userId")?.Value ?? "0"); // Get userId from custom claim
+            var categories = await _repository.GetCategoriesByUserId(userId);
             return Ok(categories);
         }
 
@@ -32,13 +37,26 @@ namespace backend.Controllers
             return Ok(category);
         }
 
+        // POST: api/category
         [HttpPost]
-        public async Task<IActionResult> AddCategory([FromBody] Category category)
+        [Authorize]
+        public async Task<ActionResult<Category>> AddCategory(Category category)
         {
-            if (!ModelState.IsValid) return BadRequest(ModelState);
+            var userId = int.Parse(User.FindFirst("userId")?.Value ?? "0"); // Get userId from custom claim
+            category.UserId = userId; // Assign the UserId to the category
 
+            // Check if a category with the same name already exists for this user
+            var existingCategory = await _repository.GetCategoryByNameAndUserId(category.Name, userId);
+            if (existingCategory != null)
+            {
+                return BadRequest(new { message = "Category name already exists for this user.", success = false });
+            }
+
+            // Add the category to the repository
             await _repository.AddCategory(category);
-            return CreatedAtAction(nameof(GetCategoryById), new { id = category.Id }, category);
+
+            // Return the newly created category with the appropriate response
+            return CreatedAtAction(nameof(GetCategories), new { id = category.Id }, category);
         }
 
         [HttpPut("{id}")]

@@ -18,8 +18,17 @@ namespace backend.Repositories
         }
 
 
-        public async  Task AddBudget(Budget budget)
+        public async Task AddBudget(Budget budget)
         {
+            // Check if the user already has a budget for this month and year
+            var existingBudget = await _context.Budgets
+                .FirstOrDefaultAsync(b => b.UserId == budget.UserId && b.Month == budget.Month && b.Year == budget.Year);
+
+            if (existingBudget != null)
+            {
+                throw new InvalidOperationException("A budget for this month and year already exists for this user.");
+            }
+
             _context.Budgets.Add(budget);
             await _context.SaveChangesAsync();
         }

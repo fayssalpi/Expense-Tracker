@@ -31,7 +31,7 @@ namespace backend.Controllers
         {
             if (await _repository.UserExists(request.Username))
             {
-                return BadRequest("Username already exists.");
+                return BadRequest(new { message = "Username already exists." });
             }
 
             var hashedPassword = BCrypt.Net.BCrypt.HashPassword(request.Password);
@@ -43,7 +43,9 @@ namespace backend.Controllers
             };
 
             await _repository.Register(user);
-            return Ok("User registered successfully.");
+
+            // Return a JSON object with a 'message' field
+            return Ok(new { message = "User registered successfully." });
         }
 
         [HttpPost("login")]
@@ -64,9 +66,10 @@ namespace backend.Controllers
         {
             var claims = new[]
             {
-                new Claim(ClaimTypes.Name, user.Username),
-                new Claim(ClaimTypes.NameIdentifier, user.Id.ToString())
-            };
+        // Custom claim names for better readability
+        new Claim("userId", user.Id.ToString()),  // Custom claim for user ID
+        new Claim("username", user.Username)      // Custom claim for username
+    };
 
             var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_configuration["Jwt:Key"]));
             var creds = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);
@@ -81,6 +84,7 @@ namespace backend.Controllers
 
             return new JwtSecurityTokenHandler().WriteToken(token);
         }
+
 
 
 

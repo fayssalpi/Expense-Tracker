@@ -7,7 +7,7 @@ import { tap } from 'rxjs/operators';
   providedIn: 'root',
 })
 export class AuthService {
-  private apiUrl = 'http://localhost:5001/api/auth'; // Your backend Auth API URL
+  private apiUrl = 'http://localhost:5001/api/auth'; 
 
   constructor(private http: HttpClient) {}
 
@@ -58,7 +58,7 @@ export class AuthService {
     const payload = this.decodeToken(token);
     if (!payload || !payload.exp) return false;
 
-    const expiry = payload.exp * 1000; // Convert expiry to milliseconds
+    const expiry = payload.exp * 1000; 
     return Date.now() < expiry;
   }
 
