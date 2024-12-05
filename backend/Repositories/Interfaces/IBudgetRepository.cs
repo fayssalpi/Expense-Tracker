@@ -9,5 +9,11 @@ namespace backend.Repositories.Interfaces
         Task AddBudget(Budget budget);
         Task UpdateBudget(Budget budget);
         Task DeleteBudget(int id);
+
+        // New methods
+        Task<IEnumerable<Budget>> GetBudgetsByUserIdWithDetails(int userId);
+
+
+        Task<Budget> GetCurrentMonthBudget(int userId, int month, int year);
     }
 }

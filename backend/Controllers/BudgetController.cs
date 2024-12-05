@@ -1,27 +1,21 @@
-﻿using System.Security.Claims;
-using backend.Data;
-using backend.Dtos;
+﻿using backend.Dtos;
 using backend.Mapper;
 using backend.Models;
 using backend.Repositories.Interfaces;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
 
 namespace backend.Controllers
 {
-
     [ApiController]
     [Route("api/[controller]")]
     public class BudgetController : ControllerBase
     {
         private readonly IBudgetRepository _repository;
-        private readonly AppDbContext _context;
 
-        public BudgetController(IBudgetRepository repository, AppDbContext context)
+        public BudgetController(IBudgetRepository repository)
         {
             _repository = repository;
-            _context = context;
         }
 
         [HttpGet]
@@ -32,12 +26,7 @@ namespace backend.Controllers
             {
                 var userId = int.Parse(User.FindFirst("userId")?.Value ?? "0");
 
-                var budgets = await _context.Budgets
-                    .Where(b => b.UserId == userId)
-                    .Include(b => b.Expenses)
-                    .ThenInclude(e => e.Category)
-                    .ToListAsync();
-
+                var budgets = await _repository.GetBudgetsByUserIdWithDetails(userId);
                 var budgetDtos = budgets.Select(BudgetMapper.ToDto).ToList();
 
                 return Ok(budgetDtos);
@@ -55,13 +44,7 @@ namespace backend.Controllers
         {
             try
             {
-                var userId = int.Parse(User.FindFirst("userId")?.Value ?? "0");
-
-                var budget = await _context.Budgets
-                    .Where(b => b.UserId == userId)
-                    .Include(b => b.Expenses)
-                    .ThenInclude(e => e.Category)
-                    .FirstOrDefaultAsync(b => b.Id == id);
+                var budget = await _repository.GetBudgetById(id);
 
                 if (budget == null) return NotFound(new { message = "Budget not found." });
 
@@ -82,46 +65,37 @@ namespace backend.Controllers
             try
             {
                 var userId = int.Parse(User.FindFirst("userId")?.Value ?? "0");
-
-                if (!ModelState.IsValid)
-                    return BadRequest(new { message = "Invalid data", success = false });
-
                 budget.UserId = userId;
 
                 await _repository.AddBudget(budget);
-                return CreatedAtAction(nameof(GetBudgetById), new { id = budget.Id }, new { message = "Budget added successfully", success = true });
+
+                return CreatedAtAction(nameof(GetBudgetById), new { id = budget.Id }, new { message = "Budget added successfully" });
             }
             catch (InvalidOperationException ex)
             {
-                Console.Error.WriteLine($"Error adding budget: {ex.Message}");
-                return BadRequest(new { message = ex.Message, success = false });
+                return BadRequest(new { message = ex.Message });
             }
             catch (Exception ex)
             {
                 Console.Error.WriteLine($"Unexpected error adding budget: {ex.Message}");
-                return StatusCode(500, new { message = "An unexpected error occurred.", success = false });
+                return StatusCode(500, new { message = "An unexpected error occurred." });
             }
         }
 
-
         [HttpGet("current-month")]
         [Authorize]
-        public async Task<ActionResult<BudgetDto>> GetCurrentMonthBudget()
+        public async Task<IActionResult> GetCurrentMonthBudget()
         {
             try
             {
                 var userId = int.Parse(User.FindFirst("userId")?.Value ?? "0");
                 var currentDate = DateTime.Now;
 
-                var budget = await _context.Budgets
-                    .Where(b => b.UserId == userId && b.Month == currentDate.Month && b.Year == currentDate.Year)
-                    .Include(b => b.Expenses)
-                    .ThenInclude(e => e.Category)
-                    .FirstOrDefaultAsync();
+                var budget = await _repository.GetCurrentMonthBudget(userId, currentDate.Month, currentDate.Year);
 
                 if (budget == null)
                 {
-                    return Ok(new { message = "No budget for this month", budget = (object)null });
+                    return Ok(new { message = "No budget for this month" });
                 }
 
                 var budgetDto = BudgetMapper.ToDto(budget);
@@ -135,37 +109,5 @@ namespace backend.Controllers
                 return StatusCode(500, new { message = "An error occurred while fetching the current month budget." });
             }
         }
-
-        [HttpPatch("{id}/increment-monthly-limit")]
-        [Authorize]
-        public async Task<IActionResult> IncrementMonthlyLimit(int id, [FromBody] IncrementLimitDto data)
-        {
-            try
-            {
-                var userId = int.Parse(User.FindFirst("userId")?.Value ?? "0");
-
-                var budget = await _context.Budgets.FindAsync(id);
-                if (budget == null || budget.UserId != userId)
-                {
-                    return NotFound(new { message = "Budget not found or not authorized", success = false });
-                }
-
-                if (data == null || data.Amount <= 0)
-                {
-                    return BadRequest(new { message = "Invalid amount", success = false });
-                }
-
-                budget.MonthlyLimit += data.Amount;
-
-                await _context.SaveChangesAsync();
-                return Ok(new { message = "Monthly limit incremented successfully", success = true, newMonthlyLimit = budget.MonthlyLimit });
-            }
-            catch (Exception ex)
-            {
-                Console.Error.WriteLine($"Error incrementing monthly limit: {ex.Message}");
-                return StatusCode(500, new { message = "An error occurred while incrementing the monthly limit.", success = false });
-            }
-        }
     }
 }
-

@@ -9,5 +9,7 @@ namespace backend.Repositories.Interfaces
         Task AddExpense(Expense expense);
         Task UpdateExpense(Expense expense);
         Task DeleteExpense(int id);
+        Task<IEnumerable<Expense>> GetExpensesByBudgetId(int budgetId);
+
     }
 }

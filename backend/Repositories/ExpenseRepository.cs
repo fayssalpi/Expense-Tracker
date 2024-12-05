@@ -41,5 +41,14 @@ namespace backend.Repositories
             _context.Expenses.Update(expense);
             await _context.SaveChangesAsync();
         }
+
+        public async Task<IEnumerable<Expense>> GetExpensesByBudgetId(int budgetId)
+        {
+            return await _context.Expenses
+                .Include(e => e.Category)
+                .Include(e => e.Budget)
+                .Where(e => e.BudgetId == budgetId)
+                .ToListAsync();
+        }
     }
 }

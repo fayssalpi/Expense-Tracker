@@ -49,5 +49,27 @@ namespace backend.Repositories
             _context.Budgets.Update(budget);
             await _context.SaveChangesAsync();
         }
+
+        // Fetch budgets with related expenses and categories for a specific user
+        public async Task<IEnumerable<Budget>> GetBudgetsByUserIdWithDetails(int userId)
+        {
+            return await _context.Budgets
+                .Where(b => b.UserId == userId)
+                .Include(b => b.Expenses)
+                .ThenInclude(e => e.Category)
+                .ToListAsync();
+        }
+
+        // Fetch the current month's budget
+        public async Task<Budget> GetCurrentMonthBudget(int userId, int month, int year)
+        {
+            return await _context.Budgets
+                .Where(b => b.UserId == userId && b.Month == month && b.Year == year)
+                .Include(b => b.Expenses)
+                .ThenInclude(e => e.Category)
+                .FirstOrDefaultAsync();
+        }
+
+
     }
 }

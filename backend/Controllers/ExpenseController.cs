@@ -150,12 +150,7 @@ namespace backend.Controllers
         {
             try
             {
-                var expenses = await _context.Expenses
-                                              .Include(e => e.Category)
-                                              .Include(e => e.Budget)
-                                              .Where(e => e.BudgetId == budgetId)
-                                              .ToListAsync();
-
+                var expenses = await _repository.GetExpensesByBudgetId(budgetId);
                 var expenseDtos = expenses.Select(ExpenseMapper.ToDto);
                 return Ok(expenseDtos);
             }
