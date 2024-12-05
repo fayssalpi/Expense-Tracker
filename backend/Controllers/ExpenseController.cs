@@ -3,6 +3,7 @@ using backend.Dtos;
 using backend.Mapper;
 using backend.Models;
 using backend.Repositories.Interfaces;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
@@ -16,141 +17,156 @@ namespace backend.Controllers
         private readonly IExpenseRepository _repository;
         private readonly AppDbContext _context;
 
-
         public ExpenseController(IExpenseRepository repository, AppDbContext context)
         {
             _repository = repository;
             _context = context;
-
         }
 
         [HttpGet]
+        [Authorize]
         public async Task<IActionResult> GetAllExpenses()
         {
-            var expenses = await _repository.GetAllExpenses();
-
-            var expenseDtos = expenses.Select(ExpenseMapper.ToDto);
-
-            return Ok(expenseDtos);
+            try
+            {
+                var expenses = await _repository.GetAllExpenses();
+                var expenseDtos = expenses.Select(ExpenseMapper.ToDto);
+                return Ok(expenseDtos);
+            }
+            catch (Exception ex)
+            {
+                Console.Error.WriteLine($"Error fetching expenses: {ex.Message}");
+                return StatusCode(500, new { message = "An error occurred while fetching expenses." });
+            }
         }
 
         [HttpGet("{id}")]
+        [Authorize]
         public async Task<IActionResult> GetExpenseById(int id)
         {
-            var expense = await _repository.GetExpenseById(id);
-            if (expense == null) return NotFound();
+            try
+            {
+                var expense = await _repository.GetExpenseById(id);
+                if (expense == null) return NotFound(new { message = "Expense not found." });
 
-            var expenseDto = ExpenseMapper.ToDto(expense);
-
-            return Ok(expenseDto);
+                var expenseDto = ExpenseMapper.ToDto(expense);
+                return Ok(expenseDto);
+            }
+            catch (Exception ex)
+            {
+                Console.Error.WriteLine($"Error fetching expense by ID: {ex.Message}");
+                return StatusCode(500, new { message = "An error occurred while fetching the expense." });
+            }
         }
 
         [HttpPost]
+        [Authorize]
         public async Task<IActionResult> AddExpense([FromBody] Expense expense)
         {
-            if (!ModelState.IsValid) return BadRequest(ModelState);
-
-            var budget = await _context.Budgets.FirstOrDefaultAsync(b => b.Id == expense.BudgetId);
-            if (budget == null) return BadRequest(new { error = "Invalid BudgetId." });
-
-            var categoryExists = await _context.Categories.AnyAsync(c => c.Id == expense.CategoryId);
-            if (!categoryExists) return BadRequest(new { error = "Invalid CategoryId." });
-
-            await _repository.AddExpense(expense);
-
-            budget.Spent += expense.Amount;
-            _context.Budgets.Update(budget);
-
-            if (budget.Spent > budget.MonthlyLimit)
+            try
             {
-                await NotifyUserBudgetExceeded(budget);
+                if (!ModelState.IsValid) return BadRequest(ModelState);
+
+                var budget = await _context.Budgets.FirstOrDefaultAsync(b => b.Id == expense.BudgetId);
+                if (budget == null) return BadRequest(new { error = "Invalid BudgetId." });
+
+                var categoryExists = await _context.Categories.AnyAsync(c => c.Id == expense.CategoryId);
+                if (!categoryExists) return BadRequest(new { error = "Invalid CategoryId." });
+
+                await _repository.AddExpense(expense);
+
+                budget.Spent += expense.Amount;
+                _context.Budgets.Update(budget);
+
+                await _context.SaveChangesAsync();
+
+                var expenseDto = ExpenseMapper.ToDto(expense);
+
+                return CreatedAtAction(nameof(GetExpenseById), new { id = expense.Id }, expenseDto);
             }
-
-            await _context.SaveChangesAsync();
-
-            var expenseDto = ExpenseMapper.ToDto(expense);
-
-            return CreatedAtAction(nameof(GetExpenseById), new { id = expense.Id }, expenseDto);
+            catch (Exception ex)
+            {
+                Console.Error.WriteLine($"Error adding expense: {ex.Message}");
+                return StatusCode(500, new { message = "An error occurred while adding the expense." });
+            }
         }
 
         [HttpPut("{id}")]
+        [Authorize]
         public async Task<IActionResult> UpdateExpense(int id, [FromBody] Expense expense)
         {
-            if (id != expense.Id) return BadRequest();
-            if (!ModelState.IsValid) return BadRequest(ModelState);
+            try
+            {
+                if (id != expense.Id) return BadRequest(new { message = "Expense ID mismatch." });
+                if (!ModelState.IsValid) return BadRequest(ModelState);
 
-            var categoryExists = await _context.Categories.AnyAsync(c => c.Id == expense.CategoryId);
-            if (!categoryExists) return BadRequest("Invalid CategoryId.");
+                var categoryExists = await _context.Categories.AnyAsync(c => c.Id == expense.CategoryId);
+                if (!categoryExists) return BadRequest(new { message = "Invalid CategoryId." });
 
-            await _repository.UpdateExpense(expense);
-            return NoContent();
+                await _repository.UpdateExpense(expense);
+                return NoContent();
+            }
+            catch (Exception ex)
+            {
+                Console.Error.WriteLine($"Error updating expense: {ex.Message}");
+                return StatusCode(500, new { message = "An error occurred while updating the expense." });
+            }
         }
 
         [HttpDelete("{id}")]
+        [Authorize]
         public async Task<IActionResult> DeleteExpense(int id)
         {
-            var expense = await _repository.GetExpenseById(id);
-            if (expense == null) return NotFound();
-
-            var budget = await _context.Budgets.FirstOrDefaultAsync(b => b.Id == expense.BudgetId);
-            if (budget == null) return BadRequest(new { error = "Invalid BudgetId." });
-
-            budget.Spent -= expense.Amount;
-
-            if (budget.Spent < 0)
+            try
             {
-                budget.Spent = 0;
+                var expense = await _repository.GetExpenseById(id);
+                if (expense == null) return NotFound(new { message = "Expense not found." });
+
+                var budget = await _context.Budgets.FirstOrDefaultAsync(b => b.Id == expense.BudgetId);
+                if (budget == null) return BadRequest(new { error = "Invalid BudgetId." });
+
+                budget.Spent -= expense.Amount;
+                budget.Spent = Math.Max(budget.Spent, 0);
+
+                _context.Budgets.Update(budget);
+
+                await _repository.DeleteExpense(id);
+                await _context.SaveChangesAsync();
+
+                return NoContent();
+            }
+            catch (Exception ex)
+            {
+                Console.Error.WriteLine($"Error deleting expense: {ex.Message}");
+                return StatusCode(500, new { message = "An error occurred while deleting the expense." });
             }
 
-            _context.Budgets.Update(budget);
-
-            await _repository.DeleteExpense(id);
-
-            await _context.SaveChangesAsync();
-
-            return NoContent();
         }
 
-
-        [HttpGet("by-category/{categoryId}")]
-        public async Task<IActionResult> GetExpensesByCategory(int categoryId)
-        {
-            var expenses = await _context.Expenses
-                                          .Include(e => e.Category)
-                                          .Where(e => e.CategoryId == categoryId)
-                                          .ToListAsync();
-
-            var expenseDtos = expenses.Select(ExpenseMapper.ToDto);
-            return Ok(expenseDtos);
-        }
 
         [HttpGet("by-budget/{budgetId}")]
+        [Authorize]
         public async Task<IActionResult> GetExpensesByBudget(int budgetId)
         {
-            var expenses = await _context.Expenses
-                                          .Include(e => e.Category)
-                                          .Include(e => e.Budget)
-                                          .Where(e => e.BudgetId == budgetId)
-                                          .ToListAsync();
+            try
+            {
+                var expenses = await _context.Expenses
+                                              .Include(e => e.Category)
+                                              .Include(e => e.Budget)
+                                              .Where(e => e.BudgetId == budgetId)
+                                              .ToListAsync();
 
-            var expenseDtos = expenses.Select(ExpenseMapper.ToDto);
-            return Ok(expenseDtos);
+                var expenseDtos = expenses.Select(ExpenseMapper.ToDto);
+                return Ok(expenseDtos);
+            }
+            catch (Exception ex)
+            {
+                Console.Error.WriteLine($"Error fetching expenses by budget: {ex.Message}");
+                return StatusCode(500, new { message = "An error occurred while fetching expenses by budget." });
+            }
         }
-
-        private async Task NotifyUserBudgetExceeded(Budget budget)
-        {
-            Console.WriteLine($"Budget exceeded! Budget ID: {budget.Id}, Limit: {budget.MonthlyLimit}, Spent: {budget.Spent}");
-
-        }
-
-
-
 
     }
-
-
-
-
 
 }
 

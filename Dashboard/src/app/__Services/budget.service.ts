@@ -13,7 +13,12 @@ export class BudgetService {
 
 
     getBudgets(): Observable<any> {
-      return this.http.get<any>(this.apiUrl);
+      return this.http.get<any>(this.apiUrl).pipe(
+        catchError((error) => {
+          console.error('Error fetching budgets:', error);
+          return throwError(() => new Error(error.error?.message || 'Failed to fetch budgets.'));
+        })
+      );
     }
 
 

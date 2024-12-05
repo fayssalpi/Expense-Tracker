@@ -25,62 +25,47 @@ namespace backend.Controllers
         [Authorize] 
         public async Task<ActionResult<IEnumerable<Category>>> GetCategories()
         {
-            var userId = int.Parse(User.FindFirst("userId")?.Value ?? "0"); 
-            var categories = await _repository.GetCategoriesByUserId(userId);
-            return Ok(categories);
+            try
+            {
+                var userId = int.Parse(User.FindFirst("userId")?.Value ?? "0");
+                var categories = await _repository.GetCategoriesByUserId(userId);
+
+                return Ok(categories);
+            }
+            catch (Exception ex)
+            {
+                Console.Error.WriteLine($"Error fetching categories: {ex.Message}");
+                return StatusCode(500, new { message = "An error occurred while fetching categories." });
+            }
         }
 
-        [HttpGet("{id}")]
-        public async Task<IActionResult> GetCategoryById(int id)
-        {
-            var category = await _repository.GetCategoryById(id);
-            if (category == null) return NotFound();
-            return Ok(category);
-        }
+
 
         [HttpPost]
         [Authorize]
         public async Task<ActionResult<Category>> AddCategory(Category category)
         {
-            var userId = int.Parse(User.FindFirst("userId")?.Value ?? "0"); 
-            category.UserId = userId; 
-
-            var existingCategory = await _repository.GetCategoryByNameAndUserId(category.Name, userId);
-            if (existingCategory != null)
+            try
             {
-                return BadRequest(new { message = "Category name already exists for this user.", success = false });
+                var userId = int.Parse(User.FindFirst("userId")?.Value ?? "0");
+                category.UserId = userId;
+
+                var existingCategory = await _repository.GetCategoryByNameAndUserId(category.Name, userId);
+                if (existingCategory != null)
+                {
+                    return BadRequest(new { message = "Category name already exists for this user.", success = false });
+                }
+
+                await _repository.AddCategory(category);
+
+                return CreatedAtAction(nameof(GetCategories), new { id = category.Id }, category);
             }
-
-            await _repository.AddCategory(category);
-
-            return CreatedAtAction(nameof(GetCategories), new { id = category.Id }, category);
+            catch (Exception ex)
+            {
+                Console.Error.WriteLine($"Error adding category: {ex.Message}");
+                return StatusCode(500, new { message = "An error occurred while adding the category." });
+            }
         }
-
-        [HttpPut("{id}")]
-        public async Task<IActionResult> UpdateCategory(int id, [FromBody] Category category)
-        {
-            if (id != category.Id) return BadRequest();
-            if (!ModelState.IsValid) return BadRequest(ModelState);
-
-            await _repository.UpdateCategory(category);
-            return NoContent();
-        }
-
-        [HttpDelete("{id}")]
-        public async Task<IActionResult> DeleteCategory(int id)
-        {
-            var category = await _repository.GetCategoryById(id);
-            if (category == null) return NotFound();
-
-            await _repository.DeleteCategory(id);
-            return NoContent();
-        }
-
-
-
-
-
-
 
 
     }

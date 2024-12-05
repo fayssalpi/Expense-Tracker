@@ -22,7 +22,6 @@ export class AuthService {
     const payload = { username, password };
     return this.http.post(`${this.apiUrl}/login`, payload).pipe(
       tap((response: any) => {
-        // Assuming the backend response includes { token: 'jwt-token' }
         if (response.token) {
           this.saveToken(response.token);
         }
