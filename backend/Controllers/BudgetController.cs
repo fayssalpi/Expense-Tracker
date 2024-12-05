@@ -1,9 +1,11 @@
-﻿using backend.Dtos;
+﻿using backend.Data;
+using backend.Dtos;
 using backend.Mapper;
 using backend.Models;
 using backend.Repositories.Interfaces;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 
 namespace backend.Controllers
 {
@@ -12,10 +14,15 @@ namespace backend.Controllers
     public class BudgetController : ControllerBase
     {
         private readonly IBudgetRepository _repository;
+        private readonly AppDbContext _context;
 
-        public BudgetController(IBudgetRepository repository)
+
+
+        public BudgetController(IBudgetRepository repository, AppDbContext context)
         {
             _repository = repository;
+            _context = context;
+
         }
 
         [HttpGet]
@@ -107,6 +114,37 @@ namespace backend.Controllers
             {
                 Console.Error.WriteLine($"Error fetching current month budget: {ex.Message}");
                 return StatusCode(500, new { message = "An error occurred while fetching the current month budget." });
+            }
+        }
+
+        [HttpPatch("{id}/increment-monthly-limit")]
+        [Authorize]
+
+        public async Task<IActionResult> IncrementMonthlyLimit(int id, [FromBody] IncrementLimitDto data)
+        {
+            var userId = int.Parse(User.FindFirst("userId")?.Value ?? "0");
+
+            var budget = await _context.Budgets.FindAsync(id);
+            if (budget == null || budget.UserId != userId)
+            {
+                return NotFound(new { message = "Budget not found or not authorized", success = false });
+            }
+
+            if (data == null || data.Amount <= 0)
+            {
+                return BadRequest(new { message = "Invalid amount", success = false });
+            }
+
+            budget.MonthlyLimit += data.Amount;
+
+            try
+            {
+                await _context.SaveChangesAsync();
+                return Ok(new { message = "Monthly limit incremented successfully", success = true, newMonthlyLimit = budget.MonthlyLimit });
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(new { message = ex.Message, success = false });
             }
         }
     }
