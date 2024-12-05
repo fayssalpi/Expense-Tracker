@@ -15,8 +15,8 @@ namespace backend.Mapper
                 Spent = budget.Spent,
                 Expenses = budget.Expenses?.Select(ExpenseMapper.ToDto).ToList() ?? new List<ExpenseDto>(),
                 UserId = budget.UserId,
-                Month = budget.Month,  // Ensure month is included
-                Year = budget.Year     // Ensure year is included
+                Month = budget.Month,  
+                Year = budget.Year     
 
             };
         }

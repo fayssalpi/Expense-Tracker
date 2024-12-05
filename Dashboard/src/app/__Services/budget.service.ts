@@ -11,10 +11,7 @@ export class BudgetService {
 
   constructor(private http: HttpClient) { }
 
-    /**
-   * Get all budgets for the logged-in user
-   * @returns Observable of the budgets
-   */
+
     getBudgets(): Observable<any> {
       return this.http.get<any>(this.apiUrl);
     }
@@ -29,7 +26,6 @@ export class BudgetService {
       );
     }
 
-      // Method to get the current month budget
   getCurrentMonthBudget(): Observable<any> {
     return this.http.get<any>(`${this.apiUrl}/current-month`);
   }

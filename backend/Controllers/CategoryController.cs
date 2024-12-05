@@ -21,12 +21,11 @@ namespace backend.Controllers
             _repository = repository;
         }
 
-        // GET: api/category
         [HttpGet]
-        [Authorize] // Make sure the user is authenticated
+        [Authorize] 
         public async Task<ActionResult<IEnumerable<Category>>> GetCategories()
         {
-            var userId = int.Parse(User.FindFirst("userId")?.Value ?? "0"); // Get userId from custom claim
+            var userId = int.Parse(User.FindFirst("userId")?.Value ?? "0"); 
             var categories = await _repository.GetCategoriesByUserId(userId);
             return Ok(categories);
         }
@@ -39,25 +38,21 @@ namespace backend.Controllers
             return Ok(category);
         }
 
-        // POST: api/category
         [HttpPost]
         [Authorize]
         public async Task<ActionResult<Category>> AddCategory(Category category)
         {
-            var userId = int.Parse(User.FindFirst("userId")?.Value ?? "0"); // Get userId from custom claim
-            category.UserId = userId; // Assign the UserId to the category
+            var userId = int.Parse(User.FindFirst("userId")?.Value ?? "0"); 
+            category.UserId = userId; 
 
-            // Check if a category with the same name already exists for this user
             var existingCategory = await _repository.GetCategoryByNameAndUserId(category.Name, userId);
             if (existingCategory != null)
             {
                 return BadRequest(new { message = "Category name already exists for this user.", success = false });
             }
 
-            // Add the category to the repository
             await _repository.AddCategory(category);
 
-            // Return the newly created category with the appropriate response
             return CreatedAtAction(nameof(GetCategories), new { id = category.Id }, category);
         }
 

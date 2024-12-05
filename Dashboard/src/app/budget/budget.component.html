@@ -1,0 +1,87 @@
+<div class="pagetitle">
+    <h1>Budget</h1>
+    <nav>
+      <ol class="breadcrumb">
+        <li class="breadcrumb-item"><a routerLink="/">Home</a></li>
+        <li class="breadcrumb-item active">My Budget</li>
+      </ol>
+    </nav>
+  </div>
+  
+  
+  <section class="section dashboard">
+
+  
+  <div class="row">
+    <div class="col-lg-8">
+      <div class="row">
+        <div class="card">
+          <div class="card-body">
+            <h5 class="card-title">My Budgets</h5>
+            <button class="btn btn-primary" (click)="openModal(addBudgetModal)">Add Budget</button>
+    
+            <table class="table">
+              <thead>
+                <tr>
+                  <th>Month</th>
+                  <th>Year</th>
+                  <th>Monthly Limit</th>
+                  <th>Spent</th>
+                  <th>Action</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="let budget of budgets">
+                  <td>{{ getMonthName(budget.month) }}</td> 
+                  <td>{{ budget.year }}</td>
+                  <td>{{ budget.monthlyLimit | currency }}</td> 
+                  <td>{{ budget.spent | currency }}</td> 
+                  <td>
+                    <button class="btn custom-btn" (click)="openExpenseModal(budget)">Add Expense</button>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  
+  
+  
+  
+  </section>
+  
+
+  <ng-template #addBudgetModal let-modal>
+    <div class="modal-header">
+      <h5 class="modal-title" id="addBudgetModalLabel">Add New Budget</h5>
+      <button type="button" class="btn-close" (click)="modal.close()" aria-label="Close"></button>
+    </div>
+    <div class="modal-body">
+      <form (ngSubmit)="onSubmit()">
+        <div class="mb-3">
+          <label for="monthlyLimit" class="form-label">Monthly Limit</label>
+          <input type="number" class="form-control" id="monthlyLimit" [(ngModel)]="newBudget.monthlyLimit" name="monthlyLimit" required />
+        </div>
+        <div class="mb-3">
+          <label for="spent" class="form-label">Spent</label>
+          <input type="number" class="form-control" id="spent" [(ngModel)]="newBudget.spent" name="spent" required />
+        </div>
+        <div class="mb-3">
+          <label for="month" class="form-label">Month</label>
+          <input type="number" class="form-control" id="month" [(ngModel)]="newBudget.month" name="month" min="1" max="12" required />
+        </div>
+        <div class="mb-3">
+          <label for="year" class="form-label">Year</label>
+          <input type="number" class="form-control" id="year" [(ngModel)]="newBudget.year" name="year" required />
+        </div>
+        <button type="submit" class="btn custom-btn">Save</button>
+      </form>
+    </div>
+  </ng-template>
+  
+  
+ 
+  

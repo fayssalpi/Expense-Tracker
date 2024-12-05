@@ -44,7 +44,6 @@ namespace backend.Controllers
 
             await _repository.Register(user);
 
-            // Return a JSON object with a 'message' field
             return Ok(new { message = "User registered successfully." });
         }
 
@@ -66,9 +65,8 @@ namespace backend.Controllers
         {
             var claims = new[]
             {
-        // Custom claim names for better readability
-        new Claim("userId", user.Id.ToString()),  // Custom claim for user ID
-        new Claim("username", user.Username)      // Custom claim for username
+        new Claim("userId", user.Id.ToString()),  
+        new Claim("username", user.Username)      
     };
 
             var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_configuration["Jwt:Key"]));

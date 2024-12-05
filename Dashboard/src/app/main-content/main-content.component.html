@@ -6,29 +6,19 @@
       <li class="breadcrumb-item active">Dashboard</li>
     </ol>
   </nav>
-</div><!-- End Page Title -->
-
-<!-- Display error message -->
-<div *ngIf="errorMessage" class="alert alert-danger" role="alert">
-  {{ errorMessage }}
 </div>
 
-<!-- Display success message -->
-<div *ngIf="successMessage" class="alert alert-success" role="alert">
-  {{ successMessage }}
-</div>
 
 <section class="section dashboard">
-    <!-- Button to Add Expense for the Current Month -->
-    <button class="btn btn-primary" (click)="openExpenseModal(currentMonthBudgetObject)">
+    <button class="btn custom-btn" (click)="openExpenseModal(currentMonthBudgetObject)">
       Add Expense for This Month
     </button>
+    <br>
+    <br>
 
 <div class="row">
-  <!-- Left side columns -->
   <div class="col-lg-8">
     <div class="row">
-<!-- Current Month Budget Card -->
 <div class="col-xxl-4 col-md-6">
   <div class="card info-card sales-card">
     <div class="card-body">
@@ -36,18 +26,16 @@
 
       <div class="d-flex align-items-center">
         <div class="card-icon rounded-circle d-flex align-items-center justify-content-center">
-          <i class="bi bi-cart"></i>
+          <i class="bi bi-wallet"></i>
         </div>
         <div class="ps-3">
-          <!-- Check if currentMonthBudget exists and display MonthlyLimit or 'N/A' -->
           <h6>{{ currentMonthBudget ? (currentMonthBudget | currency) : 'N/A' }}</h6>
         </div>
       </div>
     </div>
   </div>
-</div><!-- End Current Month Budget Card -->
+</div>
 
-<!-- Current Month Spent Card -->
 <div class="col-xxl-4 col-md-6">
   <div class="card info-card revenue-card">
     <div class="card-body">
@@ -58,15 +46,13 @@
           <i class="bi bi-currency-dollar"></i>
         </div>
         <div class="ps-3">
-          <!-- Check if currentMonthSpent is defined and display it -->
           <h6>{{ currentMonthSpent ? (currentMonthSpent | currency) : 0 }}</h6>
         </div>
       </div>
     </div>
   </div>
-</div><!-- End Current Month Spent Card -->
+</div>
 
-<!-- Current Month Remaining Card -->
 <div class="col-xxl-4 col-xl-12">
   <div class="card info-card customers-card">
     <div class="card-body">
@@ -74,30 +60,25 @@
 
       <div class="d-flex align-items-center">
         <div class="card-icon rounded-circle d-flex align-items-center justify-content-center">
-          <i class="bi bi-people"></i>
+          <i class="bi bi-pie-chart"></i>
         </div>
         <div class="ps-3">
-          <!-- Check if currentMonthRemaining is defined and display it -->
           <h6>{{ currentMonthRemaining ? (currentMonthRemaining | currency) : 0 }}</h6>
         </div>
       </div>
 
     </div>
   </div>
-  <!-- End of the 3 cards -->
-</div><!-- End Current Month Remaining Card -->
+</div>
 
 <div class="card">
   <div class="card-body">
     <h5 class="card-title">Current Month Budget Progress</h5>
     <div *ngIf="currentMonthBudget">
-      <!-- ApexChart for the budget progress -->
-      <apx-chart 
+      <apx-chart
         [series]="chartOptions.series"
         [chart]="chartOptions.chart"
         [plotOptions]="chartOptions.plotOptions"
-        [dataLabels]="chartOptions.dataLabels"
-        [stroke]="chartOptions.stroke"
         [fill]="chartOptions.fill"
         [tooltip]="chartOptions.tooltip">
       </apx-chart>
@@ -107,6 +88,7 @@
     </div>
   </div>
 </div>
+
 
 <div class="card info-card">
   <div class="card-body">
@@ -127,83 +109,84 @@
   </div>
 </div>
 
+<div class="card">
+  <div class="card-body">
+    <h5 class="card-title">Current Month Expenses</h5>
 
-      <div class="card">
-        <div class="card-body">
-          <h5 class="card-title">My Budgets</h5>
-          <button class="btn btn-primary" (click)="openModal(addBudgetModal)">Add Budget</button>
-  
-          <table class="table">
-            <thead>
-              <tr>
-                <th>Month</th>
-                <th>Year</th>
-                <th>Monthly Limit</th>
-                <th>Spent</th>
-                <th>Action</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr *ngFor="let budget of budgets">
-                <td>{{ getMonthName(budget.month) }}</td> 
-                <td>{{ budget.year }}</td>
-                <td>{{ budget.monthlyLimit | currency }}</td> 
-                <td>{{ budget.spent | currency }}</td> 
-                <td>
-                  <button class="btn btn-secondary" (click)="openExpenseModal(budget)">Add Expense</button>
-                </td>
-              </tr>
-            </tbody>
-          </table>
-        </div>
-      </div><!-- End Budget Table -->
+    <div *ngIf="currentMonthBudgetObject?.expenses?.length > 0; else noExpenses">
+      <div class="table-responsive" style="max-height: 300px; overflow-y: auto;">
+        <table class="table">
+          <thead>
+            <tr>
+              <th>Date</th>
+              <th>Category</th>
+              <th>Amount</th>
+              <th>Action</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let expense of currentMonthBudgetObject.expenses">
+              <td>{{ expense.date | date: 'MMM d, y' }}</td>
+              <td>{{ expense.categoryName }}</td>
+              <td>{{ expense.amount | currency }}</td>
+              <td>
+                <button class="btn btn-danger btn-sm" (click)="deleteExpense(expense.id)">
+                  Delete
+                </button>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
     </div>
-  </div><!-- End Left side columns -->
 
-  <!-- Right side columns -->
+    <ng-template #noExpenses>
+      <p>No expenses found for the current month.</p>
+    </ng-template>
+  </div>
+</div>
+
+
+    </div>
+  </div>
+
   <div class="col-lg-4">
 
-    <!-- Right side columns -->
 <div class="col">
 
-   <!-- Recent Activity -->
    <div class="card">
-    <div class="filter">
-      <a class="icon" href="#" data-bs-toggle="dropdown"><i class="bi bi-three-dots"></i></a>
-      <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow">
-        <li class="dropdown-header text-start">
-          <h6>Filter</h6>
-        </li>
-        <li><a class="dropdown-item" href="#">Today</a></li>
-        <li><a class="dropdown-item" href="#">This Month</a></li>
-        <li><a class="dropdown-item" href="#">This Year</a></li>
-      </ul>
-    </div>
+
 
     <div class="card-body">
-      <h5 class="card-title">Recent Activity <span>| Today</span></h5>
-
+      <h5 class="card-title">Notifications <span>| This Month</span></h5>
+    
       <div class="activity">
-
-        <div class="activity-item d-flex">
-          <div class="activite-label">2 hrs</div>
-          <i class='bi bi-circle-fill activity-badge text-primary align-self-start'></i>
-          <div class="activity-content">
-            Voluptates corrupti molestias voluptatem
+        <div *ngFor="let notification of notifications" class="activity-item d-flex">
+          <div class="activity-icon">
+            <i
+              class="bi"
+              [ngClass]="{
+                'bi-info-circle text-info': notification.type === 'info',
+                'bi-exclamation-triangle text-warning': notification.type === 'warning',
+                'bi-exclamation-circle text-danger': notification.type === 'danger'
+              }"
+            ></i>
           </div>
-        </div><!-- End activity item-->
-        
+          <div class="activity-content ms-2">{{ notification.message }}</div>
+        </div>
       </div>
-
+    
+      <div *ngIf="notifications.length === 0">
+        <p>No recent notifications.</p>
+      </div>
     </div>
-  </div><!-- End Recent Activity -->
-
-
+    
+  </div>
 
   <div class="card">
     <div class="card-body">
       <h5 class="card-title">My Categories</h5>
-      <button class="btn btn-primary" (click)="openModal(addCategoryModal)">Add Category</button>
+      <button class="btn custom-btn" (click)="openModal(addCategoryModal)">Add Category</button>
 
       <table class="table">
         <thead>
@@ -218,19 +201,16 @@
         </tbody>
       </table>
     </div>
-  </div><!-- End Categories Table -->
-</div><!-- End Right side columns -->
-
-
-  </div><!-- End Right side columns -->
+  </div>
 </div>
 
 
+  </div>
+</div>
 
 
 </section>
 
-<!-- Modal for Adding Category -->
 <ng-template #addCategoryModal let-modal>
   <div class="modal-header">
     <h5 class="modal-title" id="addCategoryModalLabel">Add New Category</h5>
@@ -242,15 +222,12 @@
         <label for="categoryName" class="form-label">Category Name</label>
         <input type="text" class="form-control" id="categoryName" [(ngModel)]="newCategory.name" name="name" required />
       </div>
-      <button type="submit" class="btn btn-primary">Save</button>
+      <button type="submit" class="btn custom-btn">Save</button>
     </form>
   </div>
 </ng-template>
 
 
-
-
-<!-- Modal for Adding Budget -->
 <ng-template #addBudgetModal let-modal>
   <div class="modal-header">
     <h5 class="modal-title" id="addBudgetModalLabel">Add New Budget</h5>
@@ -274,7 +251,7 @@
         <label for="year" class="form-label">Year</label>
         <input type="number" class="form-control" id="year" [(ngModel)]="newBudget.year" name="year" required />
       </div>
-      <button type="submit" class="btn btn-primary">Save</button>
+      <button type="submit" class="btn custom-btn">Save</button>
     </form>
   </div>
 </ng-template>
@@ -301,7 +278,7 @@
         <label for="date" class="form-label">Date</label>
         <input type="date" class="form-control" id="date" [(ngModel)]="newExpense.date" name="date"
         [min]="minDate" [max]="maxDate" required />      </div>
-      <button type="submit" class="btn btn-primary">Save Expense</button>
+      <button type="submit" class="btn custom-btn">Save Expense</button>
     </form>
   </div>
 </ng-template>

@@ -17,14 +17,6 @@
               <p class="small">Enter your details to register</p>
             </div>
 
-            <!-- Display error or success message -->
-            <div *ngIf="errorMessage" class="alert alert-danger" role="alert">
-              {{ errorMessage }}
-            </div>
-            <div *ngIf="successMessage" class="alert alert-success" role="alert">
-              {{ successMessage }}
-            </div>
-
             <form class="row g-3 needs-validation" novalidate (ngSubmit)="onSubmit()">
               <div class="col-12">
                 <label for="username" class="form-label">Username</label>

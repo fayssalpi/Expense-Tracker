@@ -30,12 +30,10 @@ namespace backend.Controllers
         [HttpGet]
         public async Task<IActionResult> GetAllBudgets()
         {
-            // Get the userId from the custom claim "userId"
-            var userId = int.Parse(User.FindFirst("userId")?.Value ?? "0");  // Get userId from custom claim
+            var userId = int.Parse(User.FindFirst("userId")?.Value ?? "0");  
 
-            // Fetch all budgets for the logged-in user
             var budgets = await _context.Budgets
-                .Where(b => b.UserId == userId)  // Filter by the logged-in user's ID
+                .Where(b => b.UserId == userId)  
                 .Include(b => b.Expenses)
                 .ThenInclude(e => e.Category)
                 .ToListAsync();
@@ -48,11 +46,10 @@ namespace backend.Controllers
         [HttpGet("{id}")]
         public async Task<IActionResult> GetBudgetById(int id)
         {
-            // Get the userId from the custom claim "userId"
-            var userId = int.Parse(User.FindFirst("userId")?.Value ?? "0"); // Get userId from custom claim
+            var userId = int.Parse(User.FindFirst("userId")?.Value ?? "0"); 
 
             var budget = await _context.Budgets
-                .Where(b => b.UserId == userId)  // Filter by the logged-in user's ID
+                .Where(b => b.UserId == userId)  
                 .Include(b => b.Expenses)
                 .ThenInclude(e => e.Category)
                 .FirstOrDefaultAsync(b => b.Id == id);
@@ -71,7 +68,6 @@ namespace backend.Controllers
             if (!ModelState.IsValid)
                 return BadRequest(new { message = "Invalid data", success = false });
 
-            // Ensure the budget has the correct userId
             budget.UserId = userId;
 
             try
@@ -89,29 +85,24 @@ namespace backend.Controllers
         [HttpPut("{id}")]
         public async Task<IActionResult> UpdateBudget(int id, [FromBody] Budget budget)
         {
-            // Get the userId from the custom claim "userId"
-            var userId = int.Parse(User.FindFirst("userId")?.Value ?? "0"); // Get userId from custom claim
+            var userId = int.Parse(User.FindFirst("userId")?.Value ?? "0"); 
 
-            // Log the userId and budget.UserId to check if they match
             Console.WriteLine($"UserId from token: {userId}");
 
             if (id != budget.Id) return BadRequest("Budget ID mismatch");
             if (!ModelState.IsValid) return BadRequest(ModelState);
 
-            // Find the budget from the database
             var existingBudget = await _context.Budgets.FindAsync(id);
             if (existingBudget == null)
             {
                 return NotFound("Budget not found.");
             }
 
-            // Ensure the budget belongs to the logged-in user
             if (existingBudget.UserId != userId)
             {
                 return Unauthorized("You can only modify your own budgets.");
             }
 
-            // Update the fields that are allowed to be updated
             existingBudget.MonthlyLimit = budget.MonthlyLimit;
             existingBudget.Spent = budget.Spent;
 
@@ -123,8 +114,7 @@ namespace backend.Controllers
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteBudget(int id)
         {
-            // Get the userId from the custom claim "userId"
-            var userId = int.Parse(User.FindFirst("userId")?.Value ?? "0"); // Get userId from custom claim
+            var userId = int.Parse(User.FindFirst("userId")?.Value ?? "0"); 
 
             var budget = await _repository.GetBudgetById(id);
             if (budget == null || budget.UserId != userId) return NotFound();
@@ -151,10 +141,10 @@ namespace backend.Controllers
                 return Ok(new { message = "No budget for this month", budget = (object)null });
             }
 
-            var budgetDto = BudgetMapper.ToDto(budget); // Map to DTO
-            var remaining = budgetDto.MonthlyLimit - budgetDto.Spent; // Calculate remaining amount
+            var budgetDto = BudgetMapper.ToDto(budget); 
+            var remaining = budgetDto.MonthlyLimit - budgetDto.Spent; 
 
-            return Ok(new { budget = budgetDto, remaining }); // Return DTO with additional data
+            return Ok(new { budget = budgetDto, remaining }); 
         }
 
 

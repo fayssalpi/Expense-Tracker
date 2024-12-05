@@ -27,10 +27,8 @@ namespace backend.Controllers
         [HttpGet]
         public async Task<IActionResult> GetAllExpenses()
         {
-            // Fetch all expenses
             var expenses = await _repository.GetAllExpenses();
 
-            // Map to DTOs
             var expenseDtos = expenses.Select(ExpenseMapper.ToDto);
 
             return Ok(expenseDtos);
@@ -39,11 +37,9 @@ namespace backend.Controllers
         [HttpGet("{id}")]
         public async Task<IActionResult> GetExpenseById(int id)
         {
-            // Fetch the expense
             var expense = await _repository.GetExpenseById(id);
             if (expense == null) return NotFound();
 
-            // Map to DTO
             var expenseDto = ExpenseMapper.ToDto(expense);
 
             return Ok(expenseDto);
@@ -54,31 +50,24 @@ namespace backend.Controllers
         {
             if (!ModelState.IsValid) return BadRequest(ModelState);
 
-            // Validate BudgetId
             var budget = await _context.Budgets.FirstOrDefaultAsync(b => b.Id == expense.BudgetId);
             if (budget == null) return BadRequest(new { error = "Invalid BudgetId." });
 
-            // Validate CategoryId
             var categoryExists = await _context.Categories.AnyAsync(c => c.Id == expense.CategoryId);
             if (!categoryExists) return BadRequest(new { error = "Invalid CategoryId." });
 
-            // Add the Expense
             await _repository.AddExpense(expense);
 
-            // Update the Budget's Spent amount
             budget.Spent += expense.Amount;
             _context.Budgets.Update(budget);
 
-            // Check if total expenses exceed the monthly limit
             if (budget.Spent > budget.MonthlyLimit)
             {
-                // Call the notification mechanism
                 await NotifyUserBudgetExceeded(budget);
             }
 
             await _context.SaveChangesAsync();
 
-            // Map to DTO for the response
             var expenseDto = ExpenseMapper.ToDto(expense);
 
             return CreatedAtAction(nameof(GetExpenseById), new { id = expense.Id }, expenseDto);
@@ -90,7 +79,6 @@ namespace backend.Controllers
             if (id != expense.Id) return BadRequest();
             if (!ModelState.IsValid) return BadRequest(ModelState);
 
-            // Validate CategoryId
             var categoryExists = await _context.Categories.AnyAsync(c => c.Id == expense.CategoryId);
             if (!categoryExists) return BadRequest("Invalid CategoryId.");
 
@@ -104,9 +92,25 @@ namespace backend.Controllers
             var expense = await _repository.GetExpenseById(id);
             if (expense == null) return NotFound();
 
+            var budget = await _context.Budgets.FirstOrDefaultAsync(b => b.Id == expense.BudgetId);
+            if (budget == null) return BadRequest(new { error = "Invalid BudgetId." });
+
+            budget.Spent -= expense.Amount;
+
+            if (budget.Spent < 0)
+            {
+                budget.Spent = 0;
+            }
+
+            _context.Budgets.Update(budget);
+
             await _repository.DeleteExpense(id);
+
+            await _context.SaveChangesAsync();
+
             return NoContent();
         }
+
 
         [HttpGet("by-category/{categoryId}")]
         public async Task<IActionResult> GetExpensesByCategory(int categoryId)
@@ -135,7 +139,6 @@ namespace backend.Controllers
 
         private async Task NotifyUserBudgetExceeded(Budget budget)
         {
-            // Example: Log the notification
             Console.WriteLine($"Budget exceeded! Budget ID: {budget.Id}, Limit: {budget.MonthlyLimit}, Spent: {budget.Spent}");
 
         }

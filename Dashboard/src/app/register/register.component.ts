@@ -1,11 +1,9 @@
 import { Component } from '@angular/core';
-import { FormsModule } from '@angular/forms';  // Import FormsModule
+import { FormsModule } from '@angular/forms';
 import { Router, RouterModule } from '@angular/router';
 import { AuthService } from '../__Services/auth.service';
-import { MessageService } from '../__Services/message.service';
-import { CommonModule } from '@angular/common'; // Add this import
-
-
+import { CommonModule } from '@angular/common'; 
+import Swal from 'sweetalert2';
 
 
 @Component({
@@ -21,27 +19,39 @@ export class RegisterComponent {
   errorMessage: string | null = null;
   successMessage: string | null = null;
 
-  constructor(private authService: AuthService, private messageService: MessageService, private router: Router ) {}
+  constructor(private authService: AuthService, private router: Router ) {}
+
+  showSuccessAlert(message: string): void {
+    Swal.fire({
+      icon: 'success',
+      title: 'Success',
+      text: message,
+      showConfirmButton: false,
+      timer: 3000 
+    });
+  }
+
+  showErrorAlert(message: string): void {
+    Swal.fire({
+      icon: 'error',
+      title: 'Error',
+      text: message,
+      showConfirmButton: false,
+      timer: 3000 
+    });
+  }
 
   onSubmit(): void {
     this.authService.register(this.username, this.password).subscribe(
       (response) => {
-        // Display success message
-        this.successMessage = response.message;  // Backend response with success message
-        this.messageService.changeMessage(this.successMessage);  // Update message
+        this.successMessage = response.message; 
+        this.showSuccessAlert('Registration Success.');
         
-        // Redirect to login page after successful registration
         this.router.navigate(['/login']);
       },
       (error) => {
-        // Display error message
-        this.errorMessage = 'Registration failed. Please try again.';
-        this.messageService.changeMessage(this.errorMessage);  // Update message
-      }
+        this.showErrorAlert('Registration failed. Please try again.');      }
     );
   }
-
-
-
 
 }
