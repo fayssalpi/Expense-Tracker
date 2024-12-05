@@ -18,7 +18,7 @@
         <div class="card">
           <div class="card-body">
             <h5 class="card-title">My Budgets</h5>
-            <button class="btn btn-primary" (click)="openModal(addBudgetModal)">Add Budget</button>
+            <button class="btn custom-btn" (click)="openModal(addBudgetModal)">Add Budget</button>
     
             <table class="table">
               <thead>
@@ -78,6 +78,33 @@
           <input type="number" class="form-control" id="year" [(ngModel)]="newBudget.year" name="year" required />
         </div>
         <button type="submit" class="btn custom-btn">Save</button>
+      </form>
+    </div>
+  </ng-template>
+
+
+  <ng-template #addExpenseModal let-modal>
+    <div class="modal-header">
+      <h5 class="modal-title" id="addExpenseModalLabel">Add Expense</h5>
+      <button type="button" class="btn-close" (click)="modal.close()" aria-label="Close"></button>
+    </div>
+    <div class="modal-body">
+      <form (ngSubmit)="addExpense()">
+        <div class="mb-3">
+          <label for="category" class="form-label">Category</label>
+          <select class="form-control" id="category" [(ngModel)]="newExpense.categoryId" name="categoryId" required>
+            <option *ngFor="let category of categories" [value]="category.id">{{ category.name }}</option>
+          </select>
+        </div>
+        <div class="mb-3">
+          <label for="amount" class="form-label">Amount</label>
+          <input type="number" class="form-control" id="amount" [(ngModel)]="newExpense.amount" name="amount" required />
+        </div>
+        <div class="mb-3">
+          <label for="date" class="form-label">Date</label>
+          <input type="date" class="form-control" id="date" [(ngModel)]="newExpense.date" name="date"
+          [min]="minDate" [max]="maxDate" required />      </div>
+        <button type="submit" class="btn custom-btn">Save Expense</button>
       </form>
     </div>
   </ng-template>

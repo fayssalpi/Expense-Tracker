@@ -63,11 +63,16 @@ export class MainContentComponent {
   currentMonthSpent: number = 0;
   currentMonthRemaining: number = 0;
 
+  incrementAmount: number = 0; // Default value
+
+
 
 
   @ViewChild('addBudgetModal') addBudgetModal: any; 
   @ViewChild('addExpenseModal') addExpenseModal: any;
   @ViewChild("chart") chart!: ChartComponent;
+  @ViewChild('incrementLimitModal') incrementLimitModal: any;
+
 
 
 
@@ -136,8 +141,8 @@ export class MainContentComponent {
             },
             dataLabels: {
               name: {
-                show: true, 
-                text: 'Expense', 
+                show: true,
+                text: 'Budget Progress', 
                 fontSize: '16px',
                 color: '#888',
                 offsetY: -10,
@@ -169,6 +174,7 @@ export class MainContentComponent {
             formatter: (val: any) => `${Math.round(val)}% of your budget spent`, 
           },
         },
+        labels: [], // Set to an empty array to hide "series-1"
       };
     } else {
       console.warn('Budget data is not available to load the chart.');
@@ -311,15 +317,21 @@ export class MainContentComponent {
     this.budgetService.addBudget(this.newBudget).subscribe(
       (response) => {
         if (response.success) {
-          this.successMessage = response.message;
-          this.errorMessage = null;  
-          this.budgets.push(this.newBudget);  
-          this.closeModal();  
+          this.showSuccessAlert('Budget added successfully!');
+
+          this.errorMessage = null;
+  
+          this.budgets.push(this.newBudget); 
+          this.closeModal(); 
+  
+          setTimeout(() => {
+            window.location.reload(); 
+          }, 1000); 
         }
       },
       (error) => {
         this.showErrorAlert(error.message || 'An error occurred while adding the budget');
-        this.successMessage = null;  
+        this.successMessage = null;
       }
     );
   }
@@ -348,21 +360,32 @@ export class MainContentComponent {
     );
   }
 
-  openExpenseModal(budget: any) {
+  openExpenseModal(budget: any): void {
+    if (!this.currentMonthBudget) {
+      Swal.fire({
+        icon: 'error',
+        title: 'No Budget Available',
+        text: 'There is no budget for this month. Please add a budget first!',
+        showConfirmButton: true
+      });
+      return; 
+    }
+
     this.selectedBudget = budget;
     this.newExpense.budgetId = budget.id;
-
+  
     const year = budget.year;
     const month = budget.month;
-
-    const startDate = new Date(year, month - 1, 1); 
-    const endDate = new Date(year, month, 0); 
-
+  
+    const startDate = new Date(year, month - 1, 1);
+    const endDate = new Date(year, month, 0);
+  
     this.minDate = startDate.toISOString().split('T')[0];
     this.maxDate = endDate.toISOString().split('T')[0];
-
+  
     this.openModal(this.addExpenseModal);
   }
+  
   
 addExpense(): void {
   if (!this.newExpense.amount || !this.newExpense.date || !this.newExpense.categoryId) {
@@ -440,5 +463,61 @@ addExpense(): void {
       );
     }
   }
+
+
+  addBudgetForThisMonth(): void {
+    const currentDate = new Date();
+    this.newBudget.month = currentDate.getMonth() + 1; // Months are 0-indexed
+    this.newBudget.year = currentDate.getFullYear();
+    this.newBudget.monthlyLimit = 0; // Default value
+    this.newBudget.spent = 0;       // Default value
+  
+    this.modalService.open(this.addBudgetModal, { centered: true }); // Open the modal
+  }
+  
+  
+  
+  handleAddExpense(): void {
+    if (!this.currentMonthBudget) {
+      this.showErrorAlert('No budget available for this month. Please add a budget first!');
+    } else {
+      this.openExpenseModal(this.currentMonthBudgetObject);
+    }
+  }
+
+  openIncrementLimitModal(): void {
+    this.incrementAmount = 0; 
+    this.modalService.open(this.incrementLimitModal, { centered: true }); 
+  }
+
+  incrementMonthlyLimit(): void {
+    console.log('Current month budget in increment method:', this.currentMonthBudgetObject?.id);
+    if (!this.currentMonthBudget || !this.currentMonthBudgetObject?.id) {
+      console.error('No current budget to increment');
+      return;
+    }
+  
+    this.budgetService.incrementMonthlyLimit(this.currentMonthBudgetObject.id, this.incrementAmount).subscribe({
+      next: (response) => {
+
+        this.showSuccessAlert('Monthly limit incremented successfully!');
+
+        this.loadCurrentMonthBudget();
+        this.loadChart();
+        this.loadPieChart();
+  
+        this.closeModal();
+  
+        this.incrementAmount = 0;
+  
+        console.log('Monthly limit incremented successfully:', response);
+      },
+      error: (err) => {
+        this.showErrorAlert(err.message || 'Failed to increment monthly limit');
+      }
+    });
+  }
+  
+  
 
 }

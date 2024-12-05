@@ -73,6 +73,8 @@ export class BudgetComponent {
     }
 
   ngOnInit(): void {
+    this.loadCategories();
+
 
     this.budgetService.getBudgets().subscribe(
       (response) => {
@@ -80,6 +82,18 @@ export class BudgetComponent {
       },
       (error) => {
         console.error('Error fetching budgets:', error);  
+      }
+    );
+  }
+
+  loadCategories(): void {
+    this.categoryService.getCategories().subscribe(
+      (response) => {
+        this.categories = response; 
+      },
+      (error) => {
+        console.error('Error fetching categories:', error);
+        this.showErrorAlert('Error fetching categories.');
       }
     );
   }
@@ -109,6 +123,8 @@ export class BudgetComponent {
           this.successMessage = response.message;
           this.errorMessage = null;  
           this.budgets.push(this.newBudget);  
+          this.showSuccessAlert('Budget added successfully');
+
           this.closeModal();  
         }
       },
@@ -124,6 +140,9 @@ export class BudgetComponent {
     this.selectedBudget = budget;
     this.newExpense.budgetId = budget.id;
 
+    console.error('Budget Idddddd',  this.newExpense.budgetId);
+
+
     const year = budget.year;
     const month = budget.month;
 
@@ -136,8 +155,54 @@ export class BudgetComponent {
     this.openModal(this.addExpenseModal);
   }
 
- 
 
+  addExpense(): void {
+    if (!this.newExpense.amount || !this.newExpense.date || !this.newExpense.categoryId) {
+      this.showErrorAlert('All fields are required!');
+      return;
+    }
+  
+    this.expensesService.addExpense(this.newExpense).subscribe(
+      (response) => {
+        this.showSuccessAlert('Expense added successfully!');
+  
+        this.budgetService.getBudgets().subscribe(
+          (updatedBudgets) => {
+            this.budgets = updatedBudgets;  
+          },
+          (error) => {
+            console.error('Error fetching updated budgets:', error);
+            this.showErrorAlert('Error updating budgets.');
+          }
+        );
+  
+              this.budgetService.getCurrentMonthBudget().subscribe(
+                (response) => {
+                  if (response.message === 'No budget for this month') {
+                    this.currentMonthBudget = null;
+                    this.currentMonthSpent = 0;
+                    this.currentMonthRemaining = 0;
+                  } else {
+                    this.currentMonthBudget = response.budget;
+                    this.currentMonthSpent = this.currentMonthBudget.spent || 0;
+                    this.currentMonthRemaining = this.currentMonthBudget.MonthlyLimit - this.currentMonthSpent;
+                  }
+                },
+                (error) => {
+                  console.error('Error fetching current month budget:', error);
+                  this.showErrorAlert(error.error?.message || 'Error adding expense.');
+                }
+              );
+  
+        this.newExpense = { amount: 0, date: '', categoryId: 0, budgetId: 0 };
+        this.closeModal();
+  
+        
+      },
+      (error) => {
+        this.errorMessage = error.error?.message || 'Error adding expense.';
+      }
+    ); }
 
   
 

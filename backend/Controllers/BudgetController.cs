@@ -147,6 +147,40 @@ namespace backend.Controllers
             return Ok(new { budget = budgetDto, remaining }); 
         }
 
+        [HttpPatch("{id}/increment-monthly-limit")]
+        public async Task<IActionResult> IncrementMonthlyLimit(int id, [FromBody] IncrementLimitDto data)
+        {
+            var userId = int.Parse(User.FindFirst("userId")?.Value ?? "0");
+
+            var budget = await _context.Budgets.FindAsync(id);
+            if (budget == null || budget.UserId != userId)
+            {
+                return NotFound(new { message = "Budget not found or not authorized", success = false });
+            }
+
+            if (data == null || data.Amount <= 0) // Validate the amount
+            {
+                return BadRequest(new { message = "Invalid amount", success = false });
+            }
+
+            budget.MonthlyLimit += data.Amount; // Increment the MonthlyLimit
+
+            try
+            {
+                await _context.SaveChangesAsync();
+                return Ok(new { message = "Monthly limit incremented successfully", success = true, newMonthlyLimit = budget.MonthlyLimit });
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(new { message = ex.Message, success = false });
+            }
+        }
+
+
+
+
+
+
 
 
 

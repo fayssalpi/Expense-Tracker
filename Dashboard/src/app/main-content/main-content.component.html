@@ -13,6 +13,22 @@
     <button class="btn custom-btn" (click)="openExpenseModal(currentMonthBudgetObject)">
       Add Expense for This Month
     </button>
+
+    <button
+    *ngIf="currentMonthBudget"
+    class="btn custom-btn"
+    (click)="openIncrementLimitModal()"
+  >
+    Increment Monthly Limit
+  </button>
+
+    <button
+    *ngIf="!currentMonthBudget"
+    class="btn custom-btn"
+    (click)="addBudgetForThisMonth()">
+    Add Budget for This Month
+  </button>
+
     <br>
     <br>
 
@@ -230,7 +246,7 @@
 
 <ng-template #addBudgetModal let-modal>
   <div class="modal-header">
-    <h5 class="modal-title" id="addBudgetModalLabel">Add New Budget</h5>
+    <h5 class="modal-title">Add Budget for {{ getMonthName(newBudget.month) }} {{ newBudget.year }}</h5>
     <button type="button" class="btn-close" (click)="modal.close()" aria-label="Close"></button>
   </div>
   <div class="modal-body">
@@ -245,11 +261,11 @@
       </div>
       <div class="mb-3">
         <label for="month" class="form-label">Month</label>
-        <input type="number" class="form-control" id="month" [(ngModel)]="newBudget.month" name="month" min="1" max="12" required />
+        <input type="number" class="form-control" id="month" [(ngModel)]="newBudget.month" name="month" min="1" max="12" readonly required />
       </div>
       <div class="mb-3">
         <label for="year" class="form-label">Year</label>
-        <input type="number" class="form-control" id="year" [(ngModel)]="newBudget.year" name="year" required />
+        <input type="number" class="form-control" id="year" [(ngModel)]="newBudget.year" name="year" readonly required />
       </div>
       <button type="submit" class="btn custom-btn">Save</button>
     </form>
@@ -282,3 +298,28 @@
     </form>
   </div>
 </ng-template>
+
+<ng-template #incrementLimitModal let-modal>
+  <div class="modal-header">
+    <h5 class="modal-title">Increment Monthly Limit</h5>
+    <button type="button" class="btn-close" (click)="modal.close()" aria-label="Close"></button>
+  </div>
+  <div class="modal-body">
+    <form (ngSubmit)="incrementMonthlyLimit()">
+      <div class="mb-3">
+        <label for="incrementAmount" class="form-label">Amount</label>
+        <input
+          type="number"
+          id="incrementAmount"
+          [(ngModel)]="incrementAmount"
+          name="incrementAmount"
+          class="form-control"
+          min="1"
+          required
+        />
+      </div>
+      <button type="submit" class="btn btn-primary">Increment</button>
+    </form>
+  </div>
+</ng-template>
+

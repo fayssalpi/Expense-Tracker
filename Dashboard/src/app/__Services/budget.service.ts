@@ -30,4 +30,14 @@ export class BudgetService {
     return this.http.get<any>(`${this.apiUrl}/current-month`);
   }
 
+  incrementMonthlyLimit(budgetId: number, amount: number): Observable<any> {
+    return this.http.patch<any>(`${this.apiUrl}/${budgetId}/increment-monthly-limit`, { amount }).pipe(
+      catchError((error) => {
+        console.error('Error response:', error);
+        return throwError(() => new Error(error.error?.message || 'Unknown error occurred'));
+      })
+    );
+  }
+  
+
 }
