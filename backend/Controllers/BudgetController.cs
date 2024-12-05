@@ -71,23 +71,33 @@ namespace backend.Controllers
         {
             try
             {
-                var userId = int.Parse(User.FindFirst("userId")?.Value ?? "0");
+                var userIdClaim = User.FindFirst("userId")?.Value;
+                if (string.IsNullOrEmpty(userIdClaim))
+                    return Unauthorized(new { success = false, message = "Unauthorized access." });
+
+                var userId = int.Parse(userIdClaim);
                 budget.UserId = userId;
 
                 await _repository.AddBudget(budget);
 
-                return CreatedAtAction(nameof(GetBudgetById), new { id = budget.Id }, new { message = "Budget added successfully" });
+                return CreatedAtAction(nameof(GetBudgetById), new { id = budget.Id }, new
+                {
+                    success = true,
+                    message = "Budget added successfully",
+                    id = budget.Id
+                });
             }
             catch (InvalidOperationException ex)
             {
-                return BadRequest(new { message = ex.Message });
+                return BadRequest(new { success = false, message = ex.Message });
             }
             catch (Exception ex)
             {
                 Console.Error.WriteLine($"Unexpected error adding budget: {ex.Message}");
-                return StatusCode(500, new { message = "An unexpected error occurred." });
+                return StatusCode(500, new { success = false, message = "An unexpected error occurred." });
             }
         }
+
 
         [HttpGet("current-month")]
         [Authorize]
